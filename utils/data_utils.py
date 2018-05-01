@@ -53,7 +53,9 @@ def load_image(filename, shape=None, max_size=None):
         image = image.resize(shape, PIL.Image.LANCZOS) # PIL.Image.LANCZOS is one of resampling filter
 
     # Convert to numpy floating-point array.
-    return np.float32(image)
+    image = np.expand_dims(image, axis=0)
+    image = image.astype(dtype=np.float32)
+    return image
 
 # Save an image as a jpeg-file.
 # The image is given as a numpy array with pixel-values between 0 and 255.

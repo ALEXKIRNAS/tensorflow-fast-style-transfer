@@ -5,8 +5,6 @@ import tensorflow as tf
 import numpy as np
 import scipy.io
 
-# download URL : http://www.vlfeat.org/matconvnet/models/imagenet-vgg-verydeep-19.mat
-MODEL_FILE_NAME = 'imagenet-vgg-verydeep-19.mat'
 
 def _conv_layer(input, weights, bias):
     conv = tf.nn.conv2d(input, tf.constant(weights), strides=(1, 1, 1, 1),
@@ -39,8 +37,8 @@ class VGG19:
         'relu5_3', 'conv5_4', 'relu5_4'
     )
 
-    def __init__(self, data_path):
-        data = scipy.io.loadmat(data_path)
+    def __init__(self, weights_path):
+        data = scipy.io.loadmat(weights_path)
 
         self.mean_pixel = np.array([123.68, 116.779, 103.939])
 

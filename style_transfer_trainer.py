@@ -2,8 +2,9 @@ import tensorflow as tf
 import numpy as np
 import collections
 import transform
-import utils
+import utils.data_utils as utils
 import style_transfer_tester
+
 
 class StyleTransferTrainer:
     def __init__(self, content_layer_ids, style_layer_ids, content_images, style_image, session, net, num_epochs,
@@ -20,7 +21,10 @@ class StyleTransferTrainer:
         # input images
         self.x_list = content_images
         mod = len(content_images) % batch_size
-        self.x_list = self.x_list[:-mod]
+
+        if mod > 0:
+            self.x_list = self.x_list[:-mod]
+
         self.y_s0 = style_image
         self.content_size = len(self.x_list)
 
@@ -52,11 +56,10 @@ class StyleTransferTrainer:
 
             # build graph
             self.x_test = tf.placeholder(tf.float32, shape=self.test_image.shape, name='test_input')
-            self.xi_test = tf.expand_dims(self.x_test, 0)  # add one dim for batch
 
             # result image from transform-net
             self.y_hat_test = self.tester.net(
-                self.xi_test / 255.0)  # please build graph for train first. tester.net reuses variables.
+                self.x_test / 255.0)  # please build graph for train first. tester.net reuses variables.
 
         else:
             self.TEST = False
@@ -280,13 +283,3 @@ class StyleTransferTrainer:
         gram = tf.matmul(feats_T, feats) / CHW
 
         return gram
-
-
-
-
-
-
-
-
-
-
