@@ -16,23 +16,23 @@ Following results with `--max_size 1024` are obtained from *chicago* image, whic
 Click on result images to see full size images.
 
 <p align='center'>
-<img src = 'content/chicago.jpg' height="220px">
+<img src = 'data/content/chicago.jpg' height="220px">
 </p>
 <p align='center'>
-<img src = 'style/thumbs/wave.jpg' height = '210px'>
-<img src = 'samples/chicago_wave.jpg' height = '210px'>
-<img src = 'samples/chicago_the_scream.jpg' height = '210px'>
-<img src = 'style/thumbs/the_scream.jpg' height = '210px'>
+<img src = 'data/style/thumbs/wave.jpg' height = '210px'>
+<img src = 'data/samples/chicago_wave.jpg' height = '210px'>
+<img src = 'data/samples/chicago_the_scream.jpg' height = '210px'>
+<img src = 'data/style/thumbs/the_scream.jpg' height = '210px'>
 <br>
-<img src = 'style/thumbs/la_muse.jpg' height = '210px'>
-<img src = 'samples/chicago_la_muse.jpg' height = '210px'>
-<img src = 'samples/chicago_rain_princess.jpg' height = '210px'>
-<img src = 'style/thumbs/rain_princess.jpg' height = '210px'>
+<img src = 'data/style/thumbs/la_muse.jpg' height = '210px'>
+<img src = 'data/samples/chicago_la_muse.jpg' height = '210px'>
+<img src = 'data/samples/chicago_rain_princess.jpg' height = '210px'>
+<img src = 'data/style/thumbs/rain_princess.jpg' height = '210px'>
 <br>
-<img src = 'style/thumbs/the_shipwreck_of_the_minotaur.jpg' height = '210px'>
-<img src = 'samples/chicago_shipwreck.jpg' height = '210px'>
-<img src = 'samples/chicago_udnie.jpg' height = '210px'>
-<img src = 'style/thumbs/udnie.jpg' height = '210px'>
+<img src = 'data/style/thumbs/the_shipwreck_of_the_minotaur.jpg' height = '210px'>
+<img src = 'data/samples/chicago_shipwreck.jpg' height = '210px'>
+<img src = 'data/samples/chicago_udnie.jpg' height = '210px'>
+<img src = 'data/style/thumbs/udnie.jpg' height = '210px'>
 <br>
 </p>
 
@@ -45,23 +45,23 @@ An image was rendered approximately after 100ms on  GTX 980 ti.
 Click on result images to see full size images.
 
 <p align='center'>
-<img src = 'content/female_knight.jpg' height="220px">
+<img src = 'data/content/female_knight.jpg' height="220px">
 </p>
 <p align='center'>
-<img src = 'style/thumbs/wave.jpg' height = '210px'>
-<img src = 'samples/female_knight_wave.jpg' height = '210px'>
-<img src = 'samples/female_knight_the_scream.jpg' height = '210px'>
-<img src = 'style/thumbs/the_scream.jpg' height = '210px'>
+<img src = 'data/style/thumbs/wave.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_wave.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_the_scream.jpg' height = '210px'>
+<img src = 'data/style/thumbs/the_scream.jpg' height = '210px'>
 <br>
-<img src = 'style/thumbs/la_muse.jpg' height = '210px'>
-<img src = 'samples/female_knight_la_muse.jpg' height = '210px'>
-<img src = 'samples/female_knight_rain_princess.jpg' height = '210px'>
-<img src = 'style/thumbs/rain_princess.jpg' height = '210px'>
+<img src = 'data/style/thumbs/la_muse.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_la_muse.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_rain_princess.jpg' height = '210px'>
+<img src = 'data/style/thumbs/rain_princess.jpg' height = '210px'>
 <br>
-<img src = 'style/thumbs/the_shipwreck_of_the_minotaur.jpg' height = '210px'>
-<img src = 'samples/female_knight_shipwreck.jpg' height = '210px'>
-<img src = 'samples/female_knight_udnie.jpg' height = '210px'>
-<img src = 'style/thumbs/udnie.jpg' height = '210px'>
+<img src = 'data/style/thumbs/the_shipwreck_of_the_minotaur.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_shipwreck.jpg' height = '210px'>
+<img src = 'data/samples/female_knight_udnie.jpg' height = '210px'>
+<img src = 'data/style/thumbs/udnie.jpg' height = '210px'>
 <br>
 </p>
 
@@ -82,7 +82,7 @@ Click on result images to see full size images.
 python run_train.py --style <style file> --output <output directory> --trainDB <trainDB directory> --vgg_model <model directory>
 ```
 *Example*:
-`python run_train.py --style style/wave.jpg --output model --trainDB train2014 --vgg_model pre_trained_model`
+`python run_train.py --style data/style/wave.jpg --output model --trainDB train2014 --vgg_model pre_trained_model`
 
 #### Arguments
 *Required* :  
