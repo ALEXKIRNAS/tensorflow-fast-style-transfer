@@ -3,11 +3,12 @@ import numpy as np
 import collections
 import transform
 import utils.data_utils as utils
-import style_transfer_tester
+from vgg19 import VGG19
 
 
 class StyleTransferTrainer:
-    def __init__(self, content_layer_ids, style_layer_ids, content_images, style_image, session, net, num_epochs,
+    def __init__(self, content_layer_ids, style_layer_ids, content_images,
+                 style_image, session, net: VGG19, num_epochs,
                  batch_size, content_weight, style_weight, tv_weight, learn_rate, save_path, check_period, test_image,
                  max_size):
 
@@ -75,17 +76,17 @@ class StyleTransferTrainer:
         self.y_s = tf.placeholder(tf.float32, shape=self.y_s0.shape, name='style')
 
         # preprocess for VGG
-        self.y_c_pre = self.net.preprocess(self.y_c)
-        self.y_s_pre = self.net.preprocess(self.y_s)
+        self.y_c_pre = self.net.preprocess_inputs(self.y_c)
+        self.y_s_pre = self.net.preprocess_inputs(self.y_s)
 
         # get content-layer-feature for content loss
-        content_layers = self.net.feed_forward(self.y_c_pre, scope='content')
+        content_layers = self.net.build(self.y_c_pre, scope='content')
         self.Ps = {}
         for id in self.CONTENT_LAYERS:
             self.Ps[id] = content_layers[id]
 
         # get style-layer-feature for style loss
-        style_layers = self.net.feed_forward(self.y_s_pre, scope='style')
+        style_layers = self.net.build(self.y_s_pre, scope='style')
         self.As = {}
         for id in self.STYLE_LAYERS:
             self.As[id] = self._gram_matrix(style_layers[id])
