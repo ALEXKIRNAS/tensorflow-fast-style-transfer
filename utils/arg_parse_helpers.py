@@ -61,21 +61,21 @@ class TrainArgsParser(ArgParserHelper):
         )
 
         parser.add_argument(
-            '--content_weight',
+            '--_content_weight',
             type=float,
             default=7.5,
             help='Weight of content loss.'
         )
 
         parser.add_argument(
-            '--style_weight',
+            '--_style_weight',
             type=float,
             default=500,
             help='Weight of style loss.'
         )
 
         parser.add_argument(
-            '--tv_weight',
+            '--_total_variance_weight',
             type=float,
             default=200,
             help='Weight of total variance loss.'
@@ -118,21 +118,21 @@ class TrainArgsParser(ArgParserHelper):
         )
 
         parser.add_argument(
-            '--learn_rate',
+            '--_learn_rate',
             type=float,
             default=1e-3,
             help='Learning rate.'
         )
 
         parser.add_argument(
-            '--num_epochs',
+            '--_num_epochs',
             type=int,
             default=2,
             help='The number of epochs to run.'
         )
 
         parser.add_argument(
-            '--batch_size',
+            '--_batch_size',
             type=int,
             default=4,
             help='Batch size.'

@@ -16,7 +16,7 @@ from utils import graph_utils
               default='content')
 @click.option('--output_node_name',
               help='Name of output node.',
-              default='mul_37')
+              default='styled_image')
 @click.option('--desired_input_shape',
               help='Comma separated input shape.',
               default='1,360,640,3')

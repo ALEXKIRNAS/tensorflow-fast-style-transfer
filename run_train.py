@@ -1,9 +1,8 @@
-import numpy as np
 import tensorflow as tf
 
-import style_transfer_trainer
 import utils.data_utils as utils
 import vgg19
+from trainers import style_transfer_trainer
 from utils.arg_parse_helpers import TrainArgsParser
 
 
@@ -26,32 +25,27 @@ def main():
     for layer, weight in zip(args.style_layers, args.style_layer_weights):
         STYLE_LAYERS[layer] = weight
 
-    # open session
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
 
-    # build the graph for train
     trainer = style_transfer_trainer.StyleTransferTrainer(
+        input_shape=(256, 256),
         session=sess,
-        content_layer_ids=CONTENT_LAYERS,
-        style_layer_ids=STYLE_LAYERS,
-        content_images=training_images_paths,
+        content_layer_dict=CONTENT_LAYERS,
+        style_layer_dict=STYLE_LAYERS,
+        training_images=training_images_paths,
         style_image=style_image,
-        net=vgg_net,
-        num_epochs=args.num_epochs,
+        discriminator=vgg_net,
+        num_training_epochs=args.num_epochs,
         batch_size=args.batch_size,
-        content_weight=args.content_weight,
-        style_weight=args.style_weight,
-        tv_weight=args.tv_weight,
-        learn_rate=args.learn_rate,
-        save_path=args.output,
-        check_period=args.checkpoint_every,
-        test_image=args.test,
-        max_size=args.max_size
+        content_loss_weight=args.content_weight,
+        style_loss_weight=args.style_weight,
+        total_variance_loss_weight=args.tv_weight,
+        learning_rate=args.learn_rate,
+        model_save_path=args.output,
+        saving_period=args.checkpoint_every
     )
-    # launch the graph in a session
-    trainer.train()
 
-    # close session
+    trainer.train()
     sess.close()
 
 
