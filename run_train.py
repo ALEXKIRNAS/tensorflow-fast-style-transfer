@@ -39,7 +39,7 @@ def main():
         batch_size=args.batch_size,
         content_loss_weight=args.content_weight,
         style_loss_weight=args.style_weight,
-        total_variance_loss_weight=args.tv_weight,
+        total_variance_loss_weight=args.total_variance_weight,
         learning_rate=args.learn_rate,
         model_save_path=args.output,
         saving_period=args.checkpoint_every

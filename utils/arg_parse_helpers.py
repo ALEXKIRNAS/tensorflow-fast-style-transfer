@@ -61,21 +61,21 @@ class TrainArgsParser(ArgParserHelper):
         )
 
         parser.add_argument(
-            '--_content_weight',
+            '--content_weight',
             type=float,
             default=7.5,
             help='Weight of content loss.'
         )
 
         parser.add_argument(
-            '--_style_weight',
+            '--style_weight',
             type=float,
             default=500,
             help='Weight of style loss.'
         )
 
         parser.add_argument(
-            '--_total_variance_weight',
+            '--total_variance_weight',
             type=float,
             default=200,
             help='Weight of total variance loss.'
@@ -118,21 +118,21 @@ class TrainArgsParser(ArgParserHelper):
         )
 
         parser.add_argument(
-            '--_learn_rate',
+            '--learn_rate',
             type=float,
             default=1e-3,
             help='Learning rate.'
         )
 
         parser.add_argument(
-            '--_num_epochs',
+            '--num_epochs',
             type=int,
             default=2,
             help='The number of epochs to run.'
         )
 
         parser.add_argument(
-            '--_batch_size',
+            '--batch_size',
             type=int,
             default=4,
             help='Batch size.'
@@ -197,7 +197,7 @@ class TrainArgsParser(ArgParserHelper):
         if self._args.style_weight <= 0:
             raise ValueError('Style weight must be positive.')
 
-        if self._args.tv_weight <= 0:
+        if self._args.total_variance_weight <= 0:
             raise ValueError('Total variance weight must be positive.')
 
         content_weights_len = len(self._args.content_layer_weights)

@@ -34,17 +34,18 @@ def instance_normalization(net, epsilon=1e-7, name=None):
     _, _, _, channels = net.get_shape().as_list()
 
     mean, variance = tf.nn.moments(net, [1,2], keep_dims=True)
-    with tf.variable_scope(name):
-        offset = tf.get_variable(
-            name='Offset',
-            initializer=tf.zeros(shape=(channels, )),
-            dtype=tf.float32
-        )
-        scale = tf.get_variable(
-            name='Scale',
-            initializer=tf.ones(shape=(channels,)),
-            dtype=tf.float32
-        )
+    with tf.name_scope(name):
+        with tf.variable_scope(tf.contrib.framework.get_name_scope()):
+            offset = tf.get_variable(
+                name='Offset',
+                initializer=tf.zeros(shape=(channels, )),
+                dtype=tf.float32
+            )
+            scale = tf.get_variable(
+                name='Scale',
+                initializer=tf.ones(shape=(channels,)),
+                dtype=tf.float32
+            )
 
         normalized = tf.nn.batch_normalization(
             x=net,
@@ -70,7 +71,7 @@ def instance_norm_leaky_relu(net: tf.Tensor,
     """
 
     with tf.name_scope(name=name):
-        net = instance_normalization(net)
+        net = instance_normalization(net, name=name)
 
         if activation:
             net = tf.nn.leaky_relu(net, alpha=0.4)
@@ -97,7 +98,8 @@ def deconvolution_layer(net: tf.Tensor,
 
     with tf.name_scope(name=name):
         batch_size, rows, cols, in_channels = net.get_shape().as_list()
-        output_rows, output_columns = int(rows * stride), int(cols * stride)
+        output_rows, output_columns = (int(rows * stride[0]),
+                                       int(cols * stride[1]))
 
         output_shape = [batch_size, output_rows, output_columns, num_filters]
         output_shape = tf.stack(output_shape)
@@ -113,12 +115,13 @@ def deconvolution_layer(net: tf.Tensor,
         weights_shape = [filter_size[0], filter_size[1], num_filters,
                          in_channels]
 
-        weights = tf.get_variable(
-            name='weights',
-            shape=weights_shape,
-            initializer=tf.contrib.layers.variance_scaling_initializer(),
-            dtype=tf.float32
-        )
+        with tf.variable_scope(tf.contrib.framework.get_name_scope()):
+            weights = tf.get_variable(
+                name='weights',
+                shape=weights_shape,
+                initializer=tf.contrib.layers.variance_scaling_initializer(),
+                dtype=tf.float32
+            )
 
         net = tf.nn.conv2d_transpose(
             value=net,
@@ -160,13 +163,13 @@ def convolution_layer(net: tf.Tensor,
 
         weights_shape = [filter_size[0], filter_size[1], in_channels,
                          num_filters]
-
-        weights = tf.get_variable(
-            name='weights',
-            shape=weights_shape,
-            initializer=tf.contrib.layers.variance_scaling_initializer(),
-            dtype=tf.float32
-        )
+        with tf.variable_scope(tf.contrib.framework.get_name_scope()):
+            weights = tf.get_variable(
+                name='weights',
+                shape=weights_shape,
+                initializer=tf.contrib.layers.variance_scaling_initializer(),
+                dtype=tf.float32
+            )
 
         net = tf.nn.conv2d(
             input=net,
@@ -243,16 +246,20 @@ def stylization_layer(net: tf.Tensor,
                 net,
                 num_filters=num_filters,
                 filter_size=(1, filter_size[1]),
+                name='left_branch_conv'
             )
-            left_branch = instance_norm_leaky_relu(left_branch)
+            left_branch = instance_norm_leaky_relu(left_branch,
+                                                   name='left_branch_bn')
 
         with tf.name_scope('right_branch'):
             right_branch = convolution_layer(
                 net,
                 num_filters=num_filters,
-                filter_size=(filter_size[0], 1)
+                filter_size=(filter_size[0], 1),
+                name='left_branch_conv'
             )
-            right_branch = instance_norm_leaky_relu(right_branch)
+            right_branch = instance_norm_leaky_relu(right_branch,
+                                                    name='right_branch_bn')
 
         net = tf.concat([left_branch, right_branch], axis=-1)
 
@@ -261,6 +268,7 @@ def stylization_layer(net: tf.Tensor,
         net = convolution_layer(
             net,
             num_filters=num_filters,
-            filter_size=out_filter_size)
+            filter_size=out_filter_size,
+            name='OutConv')
 
     return net

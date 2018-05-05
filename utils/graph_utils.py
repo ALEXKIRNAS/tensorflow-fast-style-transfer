@@ -89,7 +89,7 @@ def create_transformation_network(
                                      name=input_node_name)
 
     transformation_network = TransformationNet()
-    transformation_network.net(img_placeholder)
+    transformation_network.build_transformation_net(img_placeholder)
 
     saver = tf.train.Saver()
     try:

@@ -20,8 +20,8 @@ class StyleTransferTrainer(object):
     """
     def __init__(self,
                  input_shape: Tuple[int, int],
-                 content_layer_dict: Dict[str],
-                 style_layer_dict: Dict[str],
+                 content_layer_dict: Dict[str, int],
+                 style_layer_dict: Dict[str, int],
                  training_images: List[str],
                  style_image: np.ndarray,
                  session: tf.Session,
@@ -88,7 +88,7 @@ class StyleTransferTrainer(object):
         self.save_path = model_save_path
 
         # image transform network
-        self.transform = transformationnet.TransformationNet()
+        self.transform = TransformationNet()
 
         # build graph for style transfer
         self._build_graph()
@@ -204,7 +204,7 @@ class StyleTransferTrainer(object):
         preprocessed_generator_inputs = TransformationNet.preprocess_inputs(
             inputs=self.content_img_placeholder
         )
-        self.generated_image = self.transform.net(preprocessed_generator_inputs)
+        self.generated_image = self.transform.build_transformation_net(preprocessed_generator_inputs)
 
         preprocessed_generated_image = self.discriminator.preprocess_inputs(
             image=self.generated_image
@@ -351,8 +351,10 @@ class StyleTransferTrainer(object):
         maximum_number_iterations = self._num_of_examples * self._num_epochs
         maximum_number_iterations /= self._batch_size
 
-        inputs_placeholder = np.empty(shape=self._input_shape,
-                                      dtype=np.float32)
+        inputs_placeholder = np.empty(
+            shape=(self._batch_size, ) + self._input_shape + (3, ),
+            dtype=np.float32
+        )
 
         while self._global_step < maximum_number_iterations:
             self._fetch_next_input_batch(placeholder=inputs_placeholder)

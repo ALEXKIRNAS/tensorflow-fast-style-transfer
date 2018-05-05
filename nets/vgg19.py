@@ -38,11 +38,11 @@ class VGG19(object):
         """
         Preprocess input image for model inference.
         """
-        return image - tf.constant(self.IMG_MEAN)
+        return image - self.IMG_MEAN
 
     def build(self,
               input_tensor: tf.Tensor,
-              scope: str = None) -> Dict[tf.Tensor]:
+              scope: str = None) -> Dict[str, tf.Tensor]:
         """
         Builds model.
         :param input_tensor: network inputs.
@@ -76,7 +76,7 @@ class VGG19(object):
 
                 elif kind == 'pool':
                     net = tf.nn.max_pool(
-                        value=input,
+                        value=net,
                         ksize=(1, 2, 2, 1),
                         strides=(1, 2, 2, 1),
                         padding='SAME')
