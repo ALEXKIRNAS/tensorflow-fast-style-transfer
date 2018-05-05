@@ -5,12 +5,11 @@ from typing import Dict, List, Tuple
 import numpy as np
 import tensorflow as tf
 
-import transform
 import utils.data_utils as utils
+from nets.transformationnet import TransformationNet
+from nets.vgg19 import VGG19
 from trainers.losses import (compute_style_loss, compute_content_loss,
                              compute_total_variation_loss)
-from vgg19 import VGG19
-
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -89,7 +88,7 @@ class StyleTransferTrainer(object):
         self.save_path = model_save_path
 
         # image transform network
-        self.transform = transform.Transform()
+        self.transform = transformationnet.TransformationNet()
 
         # build graph for style transfer
         self._build_graph()
@@ -202,7 +201,7 @@ class StyleTransferTrainer(object):
         Build generated image features endpoints.
         """
 
-        preprocessed_generator_inputs = transform.Transform.preprocess_inputs(
+        preprocessed_generator_inputs = TransformationNet.preprocess_inputs(
             inputs=self.content_img_placeholder
         )
         self.generated_image = self.transform.net(preprocessed_generator_inputs)
@@ -328,7 +327,9 @@ class StyleTransferTrainer(object):
         begin_index = self._global_step * self._batch_size
         end_index = min((self._global_step + 1) * self._batch_size,
                         self._num_of_examples)
-        for index, image_path in enumerate(self._train_images_list[begin_index:end_index]):
+        images_paths = self._train_images_list[begin_index:end_index]
+
+        for index, image_path in enumerate(images_paths):
             image = utils.get_img(
                 image_path,
                 img_size=(self._input_shape[0], self._input_shape[1], 3)

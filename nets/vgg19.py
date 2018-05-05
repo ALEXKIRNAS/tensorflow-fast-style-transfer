@@ -1,7 +1,9 @@
-import tensorflow as tf
-import numpy as np
-from utils.matlab_weight_loader import MatlabWeightsParser
 from typing import Dict
+
+import numpy as np
+import tensorflow as tf
+
+from utils.matlab_weight_loader import MatlabWeightsParser
 
 
 class VGG19(object):

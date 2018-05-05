@@ -3,7 +3,7 @@ from typing import Iterable
 import tensorflow as tf
 from tensorflow.tools.graph_transforms import TransformGraph
 
-from transform import Transform
+from nets.transformationnet import TransformationNet
 
 
 def load_model_from_ckpt(sess: tf.Session,
@@ -88,7 +88,7 @@ def create_transformation_network(
                                      shape=desired_input_shape,
                                      name=input_node_name)
 
-    transformation_network = Transform()
+    transformation_network = TransformationNet()
     transformation_network.net(img_placeholder)
 
     saver = tf.train.Saver()

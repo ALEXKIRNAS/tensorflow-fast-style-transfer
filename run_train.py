@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 import utils.data_utils as utils
-import vgg19
+from nets import vgg19
 from trainers import style_transfer_trainer
 from utils.arg_parse_helpers import TrainArgsParser
 
