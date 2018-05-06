@@ -2,8 +2,8 @@ import time
 
 import tensorflow as tf
 
-import style_transfer_tester
 import utils.data_utils as utils
+from demos import style_transfer_tester
 from utils.arg_parse_helpers import TestArgsParser
 
 
