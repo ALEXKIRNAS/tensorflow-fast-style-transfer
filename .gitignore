@@ -111,3 +111,6 @@ imagenet-vgg-verydeep-19.mat
 
 # Experiments folder
 model/
+
+# Demo videos
+*.mp4
