@@ -1,4 +1,4 @@
-# Fast Style Transfer
+# Fast Style Transfer 
 
 ## What is different from the initial repo?
 
