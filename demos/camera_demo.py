@@ -1,4 +1,5 @@
 import logging
+import  click
 import time
 from typing import Callable
 
@@ -37,10 +38,17 @@ def camera_demo(transform_fn: Callable):
     cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
+@click.command()
+@click.option('--model',
+              default='../model/rain_princess.pb')
+def main(model):
     transformer = StyleTransferDemo(
-        model_path='../model/optimized_model.pb',
+        model_path=model,
         input_shape=(360, 640),
         scope='style_transfer_cnn'
     )
     camera_demo(transformer)
+
+
+if __name__ == '__main__':
+    main()
