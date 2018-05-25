@@ -1,5 +1,31 @@
 # Fast Style Transfer
 
+## What is different from the initial repo?
+
+### Fully refactored code
+I have refactored all code. Now it looks a little bit prettiest.
+
+### Generator arhitecture changes
+I have redesign original generator architecture. 
+Main differences:
+* Removed 75% of filters.
+* U-Net-like backbone.
+* Leaky-ReLU as internal activation instead classical ReLu.
+* Scaled Tanh as output activation instead classical Tanh.
+* Factorized output convolution.
+* One dense layer instead of 5 residual blocks.
+* Rewrite Instance Normalization as Batch Normalization Layer.
+For more details please review this [file](nets/transformationnet.py).
+
+### Demos
+I have add several new demos:
+* Camera demo (with OpenCV usage)
+* Video demo for processing video (also with usage of OpenCV). Note: it tested for mp4 format. If you have other 
+format please, read documentation for OpenCV.
+
+### Pretrained models
+You can download pertained models [here]().
+
 A tensorflow implementation of fast style transfer described in the papers:
 * [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](http://cs.stanford.edu/people/jcjohns/eccv16/) by Johnson
 * [Instance Normalization](https://arxiv.org/abs/1607.08022) by Ulyanov
